@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho Học Liệu Số & AI Tin Học THPT - GDPT 2018</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                        },
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen custom-scrollbar">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white text-xs py-2 px-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-2 text-center sm:text-left font-medium">
+                <span class="bg-amber-400 text-slate-900 text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full">Kho Học Liệu Số</span>
+                <span>Học hành chăm chỉ - Kết nối tương lai! Cập nhật đề thi & lý thuyết trắc nghiệm đúng/sai THPT.</span>
+            </div>
+            <div class="flex items-center space-x-4 text-slate-200">
+                <a href="https://zalo.me/0982921879" target="_blank" class="hover:text-white transition flex items-center gap-1 font-semibold">
+                    <i class="fa-solid fa-headset text-amber-300"></i> Hỗ trợ tài liệu qua Zalo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="filterCategory('all')">
+                    <div class="w-11 h-11 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+                        <i class="fa-solid fa-laptop-code text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-black bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent block leading-tight">KHO HỌC LIỆU SỐ</span>
+                        <span class="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">Thời AI - Tin Học THPT</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Search -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm kiếm chuyên đề, cơ sở dữ liệu, đề thi, lý thuyết..." 
+                           class="w-full pl-10 pr-4 py-2.5 bg-slate-100/80 border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all shadow-inner">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="flex items-center gap-3">
+                    <a href="https://zalo.me/0982921879" target="_blank" class="hidden sm:inline-flex items-center justify-center px-4 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition shadow-md shadow-blue-500/20 hover:scale-[1.02]">
+                        <i class="fa-solid fa-comment-dots mr-2 text-base"></i> Liên Hệ Nhận File
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navigation Bar -->
+        <nav class="bg-slate-900 text-slate-200 text-sm border-t border-slate-800 hidden md:block">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                <div class="flex items-center space-x-1 py-1">
+                    <button onclick="filterCategory('all')" class="nav-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 font-medium transition active-nav" data-cat="all">
+                        <i class="fa-solid fa-border-all mr-1 text-blue-400"></i> Trang Chủ
+                    </button>
+                    <button onclick="filterCategory('game')" class="nav-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 font-medium transition" data-cat="game">
+                        <i class="fa-solid fa-gamepad mr-1 text-emerald-400"></i> Game Hot
+                    </button>
+                    <button onclick="filterCategory('tin10')" class="nav-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 font-medium transition" data-cat="tin10">
+                        Tin Học 10
+                    </button>
+                    <button onclick="filterCategory('tin11')" class="nav-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 font-medium transition" data-cat="tin11">
+                        Tin Học 11
+                    </button>
+                    <button onclick="filterCategory('tin12')" class="nav-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 font-medium transition" data-cat="tin12">
+                        Tin Học 12
+                    </button>
+                    <button onclick="filterCategory('troly')" class="nav-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 font-medium transition" data-cat="troly">
+                        <i class="fa-solid fa-robot mr-1 text-purple-400"></i> Trợ Lý Tài Năng
+                    </button>
+                    <button onclick="filterCategory('online')" class="nav-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 font-medium transition" data-cat="online">
+                        Học Tập Online
+                    </button>
+                    <button onclick="filterCategory('totnghiep')" class="nav-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 font-medium transition" data-cat="totnghiep">
+                        <i class="fa-solid fa-graduation-cap mr-1 text-amber-400"></i> Tốt Nghiệp THPT
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Search -->
+    <div class="md:hidden p-4 bg-white border-b border-slate-200">
+        <div class="relative">
+            <input type="text" id="mobileSearchInput" oninput="handleMobileSearch()" placeholder="Tìm kiếm chuyên đề, đề thi..." 
+                   class="w-full pl-10 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-400 text-sm"></i>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b from-blue-900 via-indigo-900 to-slate-900 text-white py-12 px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b12_1px,transparent_1px),linear-gradient(to_bottom,#1e293b12_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10 text-center">
+            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/30 mb-4">
+                <i class="fa-solid fa-award"></i> Nền Tảng Học Liệu Số Thời AI
+            </span>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+                Kho Học Liệu Số & <span class="bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent">Ôn Thi THPT Quốc Gia</span>
+            </h1>
+            <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base mb-8 font-light">
+                Cung cấp hệ thống lý thuyết trọng tâm, bài tập trắc nghiệm đúng/sai, sơ đồ cơ sở dữ liệu quan hệ, thiết kế web và trợ lý AI hỗ trợ học tập toàn diện.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
+        
+        <!-- Filter Tabs & Title -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-slate-200 gap-4">
+            <div>
+                <h2 id="sectionTitle" class="text-2xl font-black text-slate-900 tracking-tight">Học Liệu & Chuyên Đề Nổi Bật</h2>
+                <p class="text-xs text-slate-500 mt-1" id="itemCount">Đang hiển thị toàn bộ nội dung học tập</p>
+            </div>
+            
+            <!-- Category Quick Selector for Mobile/Desktop -->
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-slate-500">Lọc nhanh:</span>
+                <select id="quickFilter" onchange="filterCategory(this.value)" class="text-xs font-medium border border-slate-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="all">Tất cả chuyên đề</option>
+                    <option value="tin10">Tin học 10</option>
+                    <option value="tin11">Tin học 11</option>
+                    <option value="tin12">Tin học 12 (CSDL & Web)</option>
+                    <option value="totnghiep">Ôn Thi Tốt Nghiệp THPT</option>
+                    <option value="troly">Trợ lý AI & Lời giải</option>
+                    <option value="game">Game Học Tập</option>
+                    <option value="online">Học Tập Online</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Material Grid -->
+        <div id="materialGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Rendered via JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 shadow-xs">
+            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400 text-2xl mb-4">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800">Không tìm thấy nội dung phù hợp</h3>
+            <p class="text-sm text-slate-500 mt-1 max-w-md mx-auto">Vui lòng thử lại với từ khóa khác.</p>
+        </div>
+    </main>
+
+    <!-- Modal Chi Tiết & Đọc Lý Thuyết / Lời Giải -->
+    <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden transform transition-all">
+            
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-slate-100 flex items-start justify-between bg-slate-50">
+                <div class="flex items-center gap-3">
+                    <span id="modalCategoryBadge" class="text-[11px] font-bold uppercase px-2.5 py-1 rounded-md bg-blue-100 text-blue-700">CHUYÊN ĐỀ</span>
+                    <span id="modalSource" class="text-[11px] font-semibold text-slate-500"><i class="fa-solid fa-shield-check mr-1 text-emerald-600"></i> Chuẩn Kho Học Liệu Số Thời AI</span>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-200 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content (Rendered HTML Content) -->
+            <div id="modalBodyContent" class="p-6 overflow-y-auto space-y-4 custom-scrollbar text-sm text-slate-700 leading-relaxed">
+                <!-- Nội dung chi tiết bài học / lý thuyết sẽ được load vào đây -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
+                <span class="text-xs text-slate-500">Hỗ trợ giáo viên & học sinh ôn thi</span>
+                <div class="flex items-center gap-2">
+                    <a href="https://zalo.me/0982921879" target="_blank" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-comments mr-1"></i> Hỏi Đáp Qua Zalo
+                    </a>
+                    <button onclick="closeModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-xl transition">
+                        Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 text-white font-black text-lg mb-3">
+                        <i class="fa-solid fa-laptop-code text-blue-500"></i>
+                        <span>KHO HỌC LIỆU SỐ THỜI AI</span>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed mb-4">
+                        Học hành chăm chỉ - Kết nối tương lai! Nền tảng chia sẻ học liệu, đề thi trắc nghiệm đúng/sai và trợ lý AI hàng đầu cho giáo viên và học sinh THPT.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-3">Danh Mục Nội Dung</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="filterCategory('tin12')" class="hover:text-white transition">Tin Học 12 (CSDL & Web)</a></li>
+                        <li><a href="#" onclick="filterCategory('totnghiep')" class="hover:text-white transition">Ôn Thi Tốt Nghiệp THPT</a></li>
+                        <li><a href="#" onclick="filterCategory('troly')" class="hover:text-white transition">Trợ Lý Tài Năng</a></li>
+                        <li><a href="#" onclick="filterCategory('game')" class="hover:text-white transition">Game Học Tập</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-3">Chuyên Đề Trọng Tâm</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="openModal(1)" class="hover:text-white transition">Cơ Sở Dữ Liệu Quan Hệ & SQL</a></li>
+                        <li><a href="#" onclick="openModal(2)" class="hover:text-white transition">Thiết Kế Website Bằng Phần Mềm</a></li>
+                        <li><a href="#" onclick="openModal(3)" class="hover:text-white transition">Đề Trắc Nghiệm Đúng / Sai</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-3">Kết Nối & Hỗ Trợ</h4>
+                    <p class="text-slate-400 mb-3">Cần hỗ trợ giải đáp bài tập hoặc tài liệu, hãy kết nối ngay với chúng tôi:</p>
+                    <a href="https://zalo.me/0982921879" target="_blank" class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-comments mr-2"></i> Kết Nối Zalo Ngay
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-800 text-center text-slate-500">
+                <p>© Kho Học Liệu Số Thời AI. Học hành chăm chỉ - Kết nối tương lai!</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data & Interaction -->
+    <script>
+        // Cơ sở dữ liệu đồng bộ nội dung từ trang khohoclieusothoiai.com
+        const materialsData = [
+            {
+                id: 1,
+                title: "CHỦ ĐỀ 10: CƠ SỞ DỮ LIỆU QUAN HỆ & SQL (LÝ THUYẾT & ĐÚNG/SAI)",
+                category: "tin12",
+                badge: "Trọng tâm",
+                badgeColor: "bg-red-500",
+                views: "3,420",
+                description: "Hệ thống lý thuyết cấu trúc bảng, khóa chính (PK), khóa ngoại (FK), mối quan hệ bắc cầu và câu lệnh truy vấn SQL chuẩn kèm ví dụ thực tế.",
+                fullContent: `
+                    <h3 class="text-xl font-black text-slate-900 mb-3">CHỦ ĐỀ 10. CƠ SỞ DỮ LIỆU QUAN HỆ (LÝ THUYẾT & TRẮC NGHIỆM ĐÚNG/SAI)</h3>
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-4 text-xs font-semibold text-blue-800">
+                        <i class="fa-solid fa-circle-info mr-1"></i> Dạng đề thi: Trắc nghiệm Đúng/Sai phân tích dữ liệu chuyên sâu.
+                    </div>
+                    
+                    <h4 class="font-bold text-slate-800 text-base mt-3">1. Cấu trúc bảng và các loại khóa</h4>
+                    <p>• <b>Bảng (Table):</b> Nơi chứa dữ liệu, gồm các cột (trường/field) và hàng (bản ghi/record).</p>
+                    <p>• <b>Khóa chính (Primary Key - PK):</b> Là một hoặc một nhóm trường dùng để xác định duy nhất một hàng trong bảng. Giá trị không được để trống (Not Null) và không trùng lặp. Khóa tổ hợp là sự kết hợp nhiều trường khi một trường chưa đủ làm khóa.</p>
+                    <p>• <b>Khóa ngoài (Foreign Key - FK):</b> Trường của bảng này tham chiếu đến khóa chính của bảng khác để tạo mối liên kết.</p>
+
+                    <h4 class="font-bold text-slate-800 text-base mt-3">2. Thiết kế và liên kết các bảng</h4>
+                    <p>• Tránh dư thừa dữ liệu bằng cách tách thành các bảng nhỏ có quan hệ.</p>
+                    <p>• <b>Mối quan hệ bắc cầu:</b> Muốn kết nối bảng A đến bảng C, cần thông qua bảng trung gian B.</p>
+
+                    <h4 class="font-bold text-slate-800 text-base mt-3">3. Câu lệnh truy vấn SQL cơ bản</h4>
+                    <pre class="bg-slate-900 text-emerald-400 p-3 rounded-lg text-xs overflow-x-auto my-2">SELECT &lt;danh sách cột&gt;\nFROM &lt;tên bảng&gt;\n[INNER] JOIN &lt;tên bảng khác&gt; ON &lt;điều kiện liên kết&gt;\nWHERE &lt;điều kiện lọc&gt;;</pre>
+                `
+            },
+            {
+                id: 2,
+                title: "CHỦ ĐỀ 9: THIẾT KẾ WEBSITE BẰNG PHẦN MỀM (GOOGLE SITES)",
+                category: "tin12",
+                badge: "Lý thuyết",
+                badgeColor: "bg-blue-600",
+                views: "2,890",
+                description: "Hướng dẫn chi tiết từ cấu trúc trang web (Header, Body, Footer), Favicon, quy trình chuẩn bị, bảng chọn Chèn (Insert) đến liên kết và Google Forms.",
+                fullContent: `
+                    <h3 class="text-xl font-black text-slate-900 mb-3">CHỦ ĐỀ 9. THIẾT KẾ WEBSITE BẰNG PHẦN MỀM</h3>
+                    
+                    <h4 class="font-bold text-slate-800 text-base mt-3">I. Cấu trúc chung của một trang web</h4>
+                    <p>• <b>Header (Đầu trang):</b> Chứa logo, tên trang, thanh điều hướng (menu), Favicon (biểu tượng nhỏ trên tab trình duyệt).</p>
+                    <p>• <b>Body (Thân trang):</b> Chứa nội dung chính chia thành các khối (blocks).</p>
+                    <p>• <b>Footer (Chân trang):</b> Thông tin bản quyền, liên hệ.</p>
+
+                    <h4 class="font-bold text-slate-800 text-base mt-3">II. Quy trình xây dựng & Thao tác Google Sites</h4>
+                    <p>1. <b>Quy trình:</b> Định hình ý tưởng &rarr; Thiết kế bố cục/phông chữ &rarr; Lựa chọn phần mềm & chuẩn bị tư liệu.</p>
+                    <p>2. <b>Bảng chọn Chèn (Insert):</b> Hộp văn bản, Hình ảnh, Nhúng, Băng chuyền hình ảnh, Google Maps, YouTube, Biểu mẫu (Google Forms).</p>
+                    <p>3. <b>Cấu trúc cây trang web:</b> Trang chủ (Home) và các trang con. Thanh điều hướng tự động cập nhật và thu gọn thành menu 3 gạch trên thiết bị di động.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "ÔN THI TỐT NGHIỆP THPT: HỆ THỐNG CÂU HỎI ĐÚNG / SAI MÔN TIN HỌC",
+                category: "totnghiep",
+                badge: "Luyện thi",
+                badgeColor: "bg-amber-500",
+                views: "4,150",
+                description: "Tổng hợp các dạng bài tập trắc nghiệm Đúng/Sai bám sát cấu trúc ôn thi tốt nghiệp THPT mới nhất, kèm hướng dẫn giải chi tiết.",
+                fullContent: `
+                    <h3 class="text-xl font-black text-slate-900 mb-3">ÔN THI TỐT NGHIỆP THPT - LUYỆN ĐỀ ĐÚNG/SAI</h3>
+                    <p class="text-slate-600 mb-3">Hệ thống bài tập phân hóa cao giúp học sinh nắm vững các dạng câu hỏi nhận biết, thông hiểu và vận dụng cao trong kì thi tốt nghiệp THPT môn Tin học.</p>
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs font-semibold text-amber-800">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Lưu ý: Học sinh cần đọc kỹ từng ý (a, b, c, d) để tránh mắc bẫy các khái niệm khóa chính, khóa ngoại và câu lệnh SQL.
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "TRỢ LÝ TÀI NĂNG AI: GIẢI ĐÁP & HƯỚNG DẪN LẬP TRÌNH PYTHON / C++",
+                category: "troly",
+                badge: "AI Tool",
+                badgeColor: "bg-purple-600",
+                views: "2,100",
+                description: "Khám phá công cụ trợ lý AI hỗ trợ học tập trực tuyến, giải thích code, gỡ lỗi (debug) chương trình Python và thuật toán nâng cao.",
+                fullContent: `
+                    <h3 class="text-xl font-black text-slate-900 mb-3">TRỢ LÝ TÀI NĂNG AI - HỖ TRỢ HỌC TẬP</h3>
+                    <p class="text-slate-600">Trợ lý AI giúp học sinh và giáo viên giải đáp các thắc mắc lập trình, tạo câu hỏi ôn tập tự động và phân tích cú pháp thuật toán nhanh chóng.</p>
+                `
+            },
+            {
+                id: 5,
+                title: "GAME HOT: VỪA CHƠI - VỪA HỌC TIN HỌC THPT",
+                category: "game",
+                badge: "Giải trí",
+                badgeColor: "bg-emerald-500",
+                views: "3,800",
+                description: "Tổng hợp các trò chơi trắc nghiệm tương tác gamification giúp ôn tập kiến thức Tin học khối 10, 11, 12 cực kỳ sinh động và hấp dẫn.",
+                fullContent: `
+                    <h3 class="text-xl font-black text-slate-900 mb-3">GAME HOT - HỌC MÀ CHƠI, CHƠI MÀ HỌC</h3>
+                    <p class="text-slate-600">Hệ thống minigame trắc nghiệm kiến thức lập trình, mạng máy tính và cơ sở dữ liệu giúp học sinh ghi nhớ kiến thức tự nhiên và hào hứng.</p>
+                `
+            },
+            {
+                id: 6,
+                title: "HỌC TẬP ONLINE: TÀI LIỆU & VIDEO BÀI GIẢNG SỐ",
+                category: "online",
+                badge: "Trực tuyến",
+                badgeColor: "bg-indigo-600",
+                views: "1,920",
+                description: "Kho video bài giảng trực tuyến, slide minh họa và tài liệu PDF phục vụ tự học tại nhà cho học sinh toàn quốc.",
+                fullContent: `
+                    <h3 class="text-xl font-black text-slate-900 mb-3">HỌC TẬP ONLINE - TÀI NGUYÊN SỐ</h3>
+                    <p class="text-slate-600">Tổng hợp các video bài giảng chi tiết từng bài học theo chương trình GDPT 2018 môn Tin học.</p>
+                `
+            },
+            {
+                id: 7,
+                title: "CHUYÊN ĐỀ TIN HỌC 10: THÔNG TIN VÀ XỬ LÝ THÔNG TIN TRONG AI",
+                category: "tin10",
+                badge: "Khối 10",
+                badgeColor: "bg-blue-500",
+                views: "1,540",
+                description: "Khái niệm thông tin, dữ liệu, thiết bị số và các ứng dụng cơ bản của Trí tuệ nhân tạo trong xử lý thông tin tự động.",
+                fullContent: `
+                    <h3 class="text-xl font-black text-slate-900 mb-3">TIN HỌC 10 - THÔNG TIN VÀ XỬ LÝ THÔNG TIN</h3>
+                    <p class="text-slate-600">Tìm hiểu quy trình thu thập, xử lý và lưu trữ dữ liệu trong thế giới số kết hợp các ứng dụng trí tuệ nhân tạo.</p>
+                `
+            },
+            {
+                id: 8,
+                title: "CHUYÊN ĐỀ TIN HỌC 11: LẬP TRÌNH PYTHON CƠ BẢN VÀ NÂNG CAO",
+                category: "tin11",
+                badge: "Khối 11",
+                badgeColor: "bg-teal-600",
+                views: "2,310",
+                description: "Toàn bộ kiến thức lập trình Python: Kiểu dữ liệu, câu lệnh điều kiện, vòng lặp, hàm và kỹ thuật xử lý mảng/danh sách.",
+                fullContent: `
+                    <h3 class="text-xl font-black text-slate-900 mb-3">TIN HỌC 11 - LẬP TRÌNH PYTHON</h3>
+                    <p class="text-slate-600">Hệ thống bài tập lập trình Python từ cơ bản đến nâng cao dành cho học sinh THPT.</p>
+                `
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentSearchQuery = '';
+
+        function renderMaterials() {
+            const grid = document.getElementById('materialGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            const filtered = materialsData.filter(item => {
+                const matchCategory = currentCategory === 'all' || item.category === currentCategory;
+                const matchSearch = item.title.toLowerCase().includes(currentSearchQuery.toLowerCase()) || 
+                                    item.description.toLowerCase().includes(currentSearchQuery.toLowerCase());
+                return matchCategory && matchSearch;
+            });
+
+            document.getElementById('itemCount').innerText = `Tìm thấy ${filtered.length} nội dung phù hợp`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(item => `
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md ${item.badgeColor} text-white">
+                                ${item.badge}
+                            </span>
+                            <span class="text-xs font-semibold text-slate-400">
+                                <i class="fa-solid fa-eye mr-1"></i>${item.views}
+                            </span>
+                        </div>
+
+                        <h3 class="font-bold text-slate-800 text-base leading-snug line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors">
+                            ${item.title}
+                        </h3>
+
+                        <p class="text-xs text-slate-500 line-clamp-3 mb-4 leading-relaxed">
+                            ${item.description}
+                        </p>
+                    </div>
+
+                    <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between mt-auto">
+                        <span class="text-xs font-semibold text-emerald-600"><i class="fa-solid fa-circle-check mr-1"></i>Đã kiểm duyệt</span>
+                        <button onclick="openModal(${item.id})" class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                            Đọc chi tiết <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.classList.add('bg-slate-800', 'text-blue-400');
+                } else {
+                    btn.classList.remove('bg-slate-800', 'text-blue-400');
+                }
+            });
+
+            document.getElementById('quickFilter').value = cat;
+
+            const titles = {
+                'all': 'Học Liệu & Chuyên Đề Nổi Bật',
+                'game': 'Trò Chơi (Game Hot – Vừa Chơi Vừa Học)',
+                'tin10': 'Chuyên Đề Tin Học 10',
+                'tin11': 'Chuyên Đề Tin Học 11',
+                'tin12': 'Tin Học 12 (Cơ Sở Dữ Liệu & Thiết Kế Web)',
+                'troly': 'Trợ Lý Tài Năng AI',
+                'online': 'Học Tập Online',
+                'totnghiep': 'Ôn Thi Tốt Nghiệp THPT'
+            };
+            document.getElementById('sectionTitle').innerText = titles[cat] || 'Danh Mục Học Liệu';
+
+            renderMaterials();
+        }
+
+        function handleSearch() {
+            currentSearchQuery = document.getElementById('searchInput').value;
+            renderMaterials();
+        }
+
+        function handleMobileSearch() {
+            currentSearchQuery = document.getElementById('mobileSearchInput').value;
+            renderMaterials();
+        }
+
+        function openModal(id) {
+            const item = materialsData.find(m => m.id === id);
+            if (!item) return;
+
+            document.getElementById('modalCategoryBadge').innerText = item.badge;
+            document.getElementById('modalBodyContent').innerHTML = item.fullContent;
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        renderMaterials();
+    </script>
+</body>
+</html>
